@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :user_groups
   resources :reservations
   resources :restaurants
   resources :groups do
