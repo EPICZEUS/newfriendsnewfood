@@ -11,6 +11,8 @@ class ReservationsController < ApplicationController
 
   def new
     @reservation = Reservation.new
+    @groups = Group.all
+    @restaurants = Restaurant.all
   end
 
   def create
@@ -25,6 +27,8 @@ class ReservationsController < ApplicationController
 
   def edit
     #find_reservation
+    @groups = Group.all
+    @restaurants = Restaurant.all
   end
 
   def update

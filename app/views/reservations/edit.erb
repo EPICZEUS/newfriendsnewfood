@@ -1,0 +1,12 @@
+<h1>Edit a Reservation</h1>
+
+ <%= form_for @reservation do |f| %>
+   <%= render "shared/errors" %>
+   <%= f.label :group %>
+   <%= f.collection_select :group_id, @groups, :id, :name, prompt: "Select Group" %>
+   <%= f.label :field %>
+   <%= f.collection_select :restaurant_id, @restaurants, :id, :name, prompt: "Select Restaurant" %>
+   <%= f.label :time %>
+   <%= f.datetime_select :date, :ampm => true, :minute_step => 15 %>
+   <%= f.submit %>
+ <% end %>
