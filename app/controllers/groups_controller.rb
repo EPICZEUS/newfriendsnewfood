@@ -18,6 +18,7 @@ def create
   if @group.valid?
     redirect_to group_path(@group)
   else
+    flash[:errors] = @group.errors.full_messages
     redirect_to new_group_path
 end
 
@@ -28,6 +29,7 @@ def update
   if @group.update(group_params)
     redirect_to group_path(@group)
   else
+    flash[:errors] = @group.errors.full_messages
     redirect_to edit_group_path
 end
 
