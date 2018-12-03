@@ -1,0 +1,15 @@
+<h1>**This is the show page for Group</h1>
+
+<%= @group.name %>
+
+<%# has many users, messages , reservations, restaurants %>
+
+<%# show all users %>
+<% @users.each do |user| %>
+<%= user.name %>
+<% end %>
+
+<% @reservations.each do |reservation| %>
+<%= reservation.time %>
+<%= reservation.restaurant %>
+<% end %>

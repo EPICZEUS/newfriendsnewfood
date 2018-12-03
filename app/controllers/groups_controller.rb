@@ -6,7 +6,8 @@ def index
 end
 
 def show
-
+  @users=User.all
+  @reservations =Reservation.all
 end
 
 def new
@@ -20,6 +21,7 @@ def create
   else
     flash[:errors] = @group.errors.full_messages
     redirect_to new_group_path
+  end
 end
 
 def edit
@@ -31,6 +33,7 @@ def update
   else
     flash[:errors] = @group.errors.full_messages
     redirect_to edit_group_path
+  end
 end
 
 def destroy
