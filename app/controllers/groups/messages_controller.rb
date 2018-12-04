@@ -14,10 +14,10 @@ class MessagesController < ApplicationController
 		@message = Message.create(message_params)
 
 		if @message.valid?
-			redirect_to group_messages
+			redirect_to group_messages_path
 		else
 			flash[:errors] = @message.errors.full_messages
-			redirect_to group_messages
+			redirect_to group_messages_path
 		end
 	end
 
