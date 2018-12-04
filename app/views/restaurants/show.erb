@@ -1,9 +1,10 @@
-<h1>Restaurant Page</h1>
+<h1><%= link_to "Restaurant Page", @restaurant.url %></h1>
 
 <ul>
   <li><strong> Name: <%= @restaurant.name %></strong></li>
   <li>Locaiton: <%= @restaurant.location %></li>
   <li>Cuisine: <%= @restaurant.cuisine %></li>
-  <li>Price: <%= @restaurant.price %></li>
-  <li>Rating: <%= @restaurant.rating %></li>
+  <li>Price: <%= "$" * @restaurant.price %></li>
+  <li>Rating: <%= @restaurant.rating %>/5</li>
 </ul>
+<%= button_to "Back", restaurants_path, method: :get %>

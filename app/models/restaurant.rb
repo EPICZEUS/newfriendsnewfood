@@ -11,10 +11,12 @@ class Restaurant < ApplicationRecord
   		}
   	}
 
-  	if params[:q]
-  		req[:params][:q] = params[:q]
-  		req[:params][:cuisines] = params[:cuisine] if params[:cuisine]
+  	unless params[:q] || params[:cuisine]
+  		return []
   	end
+
+  	req[:params][:q] = params[:q]
+		req[:params][:cuisines] = params[:cuisine] if params[:cuisine]
 
   	res = RestClient.get('https://developers.zomato.com/api/v2.1/search', req)
 
@@ -39,7 +41,7 @@ class Restaurant < ApplicationRecord
   	data[:cuisine] = params["cuisines"].split(', ').first
   	data[:rating] = params["user_rating"]["aggregate_rating"]
   	data[:price] = params["price_range"]
-  	data[:url] = params[:url]
+  	data[:url] = params["url"]
 
   	data.permit(:name, :location, :cuisine, :rating, :price, :url)
   end
