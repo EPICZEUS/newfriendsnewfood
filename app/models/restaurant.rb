@@ -39,8 +39,9 @@ class Restaurant < ApplicationRecord
   	data[:cuisine] = params["cuisines"].split(', ').first
   	data[:rating] = params["user_rating"]["aggregate_rating"]
   	data[:price] = params["price_range"]
+  	data[:url] = params[:url]
 
-  	data.permit(:name, :location, :cuisine, :rating, :price)
+  	data.permit(:name, :location, :cuisine, :rating, :price, :url)
   end
 end
 # byebug
