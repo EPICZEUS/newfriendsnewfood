@@ -1,5 +1,8 @@
 <h1><%= @user.name %></h1>
-<img src="<%= @user.img_url %>">
+<% if @user.img_url %>
+	<%= image_tag @user.img_url %><br>
+<% end %>
 Username: <%= @user.username %><br>
 Age: <%= @user.age %><br>
 Bio: <p><%= @user.bio %></p>
+<%= button_to "Edit", edit_user_path(@user), method: :get %>

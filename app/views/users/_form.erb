@@ -1,14 +1,14 @@
 <%= form_for @user do |f| %>
   <%= render 'shared/errors' %>
-  <%= f.label :name, "Name" %>
+  <%= f.label :name, "Name" %>:
   <%= f.text_field :name %><br>
-  <%= f.label :age, "Age" %>
+  <%= f.label :age, "Age" %>:
   <%= f.number_field :age %><br>
-  <%= f.label :username, "Username" %>
+  <%= f.label :username, "Username" %>:
   <%= f.text_field :username %><br>
-  <%= f.label :img_url, "Image URL" %>
+  <%= f.label :img_url, "Image URL" %>:
   <%= f.text_field :img_url %><br>
-  <%= f.label :bio, "Bio" %>
+  <%= f.label :bio, "Bio" %>:
   <%= f.text_area :bio %><br>
   <%= f.submit "Submit" %>
 <% end %>

@@ -10,7 +10,7 @@ class UsersController < ApplicationController
 	end
 
 	def create
-		@user = User.find(user_params)
+		@user = User.create(user_params)
 
 		if @user.valid?
 			session[:user_id] = @user.id
@@ -38,7 +38,7 @@ class UsersController < ApplicationController
 	end
 
 	def login
-		@user = user.new
+		@user = User.new
 	end
 
 	def logging
