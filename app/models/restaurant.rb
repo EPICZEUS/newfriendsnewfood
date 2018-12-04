@@ -20,6 +20,8 @@ class Restaurant < ApplicationRecord
 
   	data = JSON.parse(res)
 
+  	params[:result_count] = data["results_shown"]
+
   	self.find_or_create_from_api(data["restaurants"])
   end
 

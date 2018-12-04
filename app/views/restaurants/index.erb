@@ -5,6 +5,9 @@
 	<%= select_tag :cuisine, options_from_collection_for_select(Cuisine.all, :cuisine_id, :name), prompt: "Select Cuisine" %>
 	<%= submit_tag "Search" %>
 <% end %>
+<% if params[:q] %>
+	<p>Showing <%= @restaurants.length %> results</p>
+<% end %>
 <ul>
 <% @restaurants.each do |rest| %>
   <li><%= link_to rest.name, rest %></li>
