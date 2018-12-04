@@ -1,9 +1,9 @@
-<%= form_for @user, action: "logging", method: :get do |f| %>
+<%= form_tag '/logging', method: :get do |f| %>
 	<%= render 'shared/errors' %>
-  <%= f.label :username, "Username" %>:
-  <%= f.text_field :username %><br>
-  <%= f.label :password, "Password" %>:
-  <%= f.password_field :password %><br>
-  <%= f.submit "Login" %>
+  <%= label_tag :username, "Username" %>:
+  <%= text_field_tag :'user[username]' %><br>
+  <%= label_tag :password, "Password" %>:
+  <%= password_field_tag :'user[password]' %><br>
+  <%= submit_tag "Login" %>
 <% end %>
 <%= button_to "Register", new_user_path, method: :get %>

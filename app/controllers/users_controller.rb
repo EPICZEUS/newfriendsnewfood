@@ -34,6 +34,7 @@ class UsersController < ApplicationController
 
 	def destroy
 		@user.destroy
+		session[:user_id] = nil
 		redirect_to users_path
 	end
 
@@ -42,13 +43,14 @@ class UsersController < ApplicationController
 	end
 
 	def logging
+		puts "logging in"
 		@user = User.find_by(user_params)
-
+		# byebug
 		if @user
-			session[:user_id] = @user
+			session[:user_id] = @user.id
 			redirect_to @user
 		else
-			flash[:errors] = ["Usernameor Password is incorrect"]
+			flash[:errors] = ["Username or Password is incorrect"]
 			redirect_to root_path
 		end
 	end
@@ -57,11 +59,13 @@ class UsersController < ApplicationController
 	end
 
 	def edit
+		redirect_to @current_user unless @current_user == @user
 	end
 
 	private
 
 	def find_user
+		# byebug
 		@user = User.find(params[:id])
 	end
 
