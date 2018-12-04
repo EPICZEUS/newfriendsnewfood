@@ -10,9 +10,10 @@ class UsersController < ApplicationController
 	end
 
 	def create
-		@user = User.create(user_params)
+		@user = User.find(user_params)
 
 		if @user.valid?
+			session[:user_id] = @user.id
 			redirect_to @user
 		else
 			flash[:errors] = @user.errors.full_messages
@@ -34,6 +35,15 @@ class UsersController < ApplicationController
 	def destroy
 		@user.destroy
 		redirect_to users_path
+	end
+
+	def login
+		@user = user.new
+	end
+
+	def logging
+		@user = User.find_by(user_params)
+
 	end
 
 	def show

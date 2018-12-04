@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+	root 'users#login'
   resources :user_groups
   resources :reservations
   resources :restaurants
