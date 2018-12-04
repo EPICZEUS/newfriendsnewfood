@@ -44,6 +44,13 @@ class UsersController < ApplicationController
 	def logging
 		@user = User.find_by(user_params)
 
+		if @user
+			session[:user_id] = @user
+			redirect_to @user
+		else
+			flash[:errors] = ["Usernameor Password is incorrect"]
+			redirect_to root_path
+		end
 	end
 
 	def show
@@ -59,6 +66,6 @@ class UsersController < ApplicationController
 	end
 
 	def user_params
-		params.require(:user).permit(:name, :age, :username, :img_url, :bio)
+		params.require(:user).permit(:name, :age, :username, :password, :img_url, :bio)
 	end
 end
