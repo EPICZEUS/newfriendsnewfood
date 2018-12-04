@@ -5,37 +5,40 @@ class Restaurant < ApplicationRecord
   def self.search(params)
   	req = {
   		'user-key': '39f051dd5468fa7441192f00e9dff87b',
-  		entity_type: 'city',
-  		entity_id: 280,
-  		accept: :json
+  		params: {
+  			entity_type: 'city',
+  		  entity_id: 280
+  		}
   	}
 
   	if params[:q]
-  		req[:q] = params[:q]
-  		req[:cuisines] = params[:cuisines] if params[:cuisine]
+  		req[:params][:q] = params[:q]
+  		req[:params][:cuisines] = params[:cuisine] if params[:cuisine]
   	end
 
   	res = RestClient.get('https://developers.zomato.com/api/v2.1/search', req)
 
-  	data = JSON.parse(res.body)
+  	data = JSON.parse(res)
 
-  	self.find_or_create_from_api(data[:restaurants])
+  	self.find_or_create_from_api(data["restaurants"])
   end
 
   def self.find_or_create_from_api(arr)
-  	arr.map { |e| self.find_or_create_by(restaurant_params(arr[:restaurant])) }
+  	arr.map { |e| self.find_or_create_by(restaurant_params(e["restaurant"])) }
   end
 
   private
 
-  def restaurant_params(params)
-  	data = {}
+  def self.restaurant_params(params)
+  	data = ActionController::Parameters.new({})
 
-  	data[:name] = params[:name]
-  	data[:location] = params[:location][:locality]
-  	data[:cuisine] = params[:cuisines].split(', ').first
-  	data[:rating] = params[:user_rating][:aggregate_rating]
-  	data[:price] = params[:price_range]
+  	data[:name] = params["name"]
+  	data[:location] = params["location"]["locality"]
+  	data[:cuisine] = params["cuisines"].split(', ').first
+  	data[:rating] = params["user_rating"]["aggregate_rating"]
+  	data[:price] = params["price_range"]
 
   	data.permit(:name, :location, :cuisine, :rating, :price)
+  end
 end
+# byebug
