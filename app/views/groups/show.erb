@@ -1,15 +1,40 @@
-<h1>**This is the show page for Group</h1>
+<h1><%= @group.name %></h1>
 
-<%= @group.name %>
+<ul>
+	<% @group.users.each do |user| %>
+		<li><%= link_to user.name, user %></li>
+	<% end %>
+</ul>
 
-<%# has many users, messages , reservations, restaurants %>
-
-<%# show all users %>
-<% @users.each do |user| %>
-<%= user.name %>
+<% unless @group.potential_restaurants.empty? %>
+	<%= form_for [@current_user, @group, Reservation.new] do |f| %>
+		<%= render 'shared/errors' %>
+		<%= select_datetime Time.now, prompt: true, date_separator: '/', time_separator: ':', datetime_separator: ',', ampm: true %>
+		<%= hidden_field_tag :'reservation[group_id]', @group.id %>
+	  <%= f.collection_select :restaurant_id, @group.potential_restaurants, :id, :name %>
+	  <%= f.submit "Create Reservation" %>
+	<% end %>
 <% end %>
 
-<% @reservations.each do |reservation| %>
-<%= reservation.time %>
-<%= reservation.restaurant %>
+<% @group.reservations.each do |reservation| %>
+	Reservation at <%= link_to reservation.restaurant.name, reservation.restaurant %> for 
+	<%= reservation.time.asctime %><br>
 <% end %>
+
+<div class="messages">
+	<h3>Messages</h3>
+	<% @group.messages.each do |message| %>
+		<div class="message">
+			<label><%= image_tag message.user.img_url, size: 32 %><strong><%= message.user.name %></strong> <%= message.created_at.asctime %></label><p><%= message.content %></p>
+		</div>
+	<% end %>
+</div>
+
+<div>
+	<%= form_for [@user, @group, Message.new] do |f| %>
+		<%= hidden_field_tag :'message[user_id]', @user.id %>
+		<%= hidden_field_tag :'message[group_id]', @group.id %>
+	  <%= f.text_area :content %>
+	  <%= f.submit "Send", :disable_with => 'Sending...' %>
+	<% end %>
+</div>

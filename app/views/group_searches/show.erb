@@ -1,0 +1,16 @@
+<h1>Searching for <%= @group_search.restaurant.name %> Groups</h1>
+<% unless @group_search.restaurant.users.length == 1  %>
+	<%= form_for [@current_user, Group.new] do |f| %>
+	  <ul>
+	  	<% @group_search.restaurant.users.each do |user| %>
+	  		<% unless @current_user == user %>
+	  			<li><%= check_box_tag :'group[user_ids][]', user.id %><%= user.name %></li>
+	  		<% end %>
+	  	<% end %>
+	  </ul>
+	  <%= hidden_field_tag :'group[user_ids][]', @current_user.id %>
+	  <%= f.label :Name, "Name the group:" %>
+	  <%= f.text_field :name %>
+	  <%= f.submit "Create Group", :disable_with => 'Creating Group...' %>
+	<% end %>
+<% end %>

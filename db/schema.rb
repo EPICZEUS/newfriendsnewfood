@@ -10,13 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_04_182210) do
+ActiveRecord::Schema.define(version: 2018_12_05_205028) do
 
   create_table "cuisines", force: :cascade do |t|
     t.string "name"
     t.integer "cuisine_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "group_searches", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "restaurant_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["restaurant_id"], name: "index_group_searches_on_restaurant_id"
+    t.index ["user_id"], name: "index_group_searches_on_user_id"
   end
 
   create_table "groups", force: :cascade do |t|
@@ -73,7 +82,7 @@ ActiveRecord::Schema.define(version: 2018_12_04_182210) do
     t.text "bio"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "password"
+    t.string "password_digest"
   end
 
 end

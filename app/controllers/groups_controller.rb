@@ -1,54 +1,54 @@
 class GroupsController < ApplicationController
   before_action :find_group, only: [:show, :edit, :update, :destroy]
+  before_action :find_user, only: [:index, :show]
 
-def index
-  @groups= Group.all
-end
-
-def show
-  @users=User.all
-  @reservations =Reservation.all
-end
-
-def new
-  @group = Group.new
-end
-
-def create
-  @group=Group.create(group_params)
-  if @group.valid?
-    redirect_to group_path(@group)
-  else
-    flash[:errors] = @group.errors.full_messages
-    redirect_to new_group_path
+  def index
+    @groups = Group.all.select { |e| e.users.include?(@user) }
   end
-end
 
-def edit
-end
-
-def update
-  if @group.update(group_params)
-    redirect_to group_path(@group)
-  else
-    flash[:errors] = @group.errors.full_messages
-    redirect_to edit_group_path
+  def show
   end
-end
 
-def destroy
-  @group.destroy
-  redirect to groups_path
-end
+  def create
+    # byebug
+    @group = Group.create(group_params)
 
-private
+    if @group.valid?
+      redirect_to user_group_path(@current_user, @group)
+    else
+      flash[:errors] = @group.errors.full_messages
+      redirect_to user_groups_path(@current_user)
+    end
+  end
 
-def find_group
-  @group = Group.find(params[:id])
-end
+  def edit
+  end
 
-def group_params
-  params.require(:group).permit(:name)
-end
+  def update
+    if @group.update(group_params)
+      redirect_to @group
+    else
+      flash[:errors] = @group.errors.full_messages
+      redirect_to edit_group_path
+    end
+  end
 
+  def destroy
+    @group.destroy
+    redirect_to user_groups_path(@current_user)
+  end
+
+  private
+
+  def find_user
+    @user = User.find(params[:user_id])
+  end
+
+  def find_group
+    @group = Group.find(params[:id])
+  end
+
+  def group_params
+    params.require(:group).permit(:name, user_ids:[])
+  end
 end

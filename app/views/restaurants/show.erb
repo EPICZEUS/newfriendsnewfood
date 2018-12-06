@@ -7,4 +7,9 @@
   <li>Price: <%= "$" * @restaurant.price %></li>
   <li>Rating: <%= @restaurant.rating %>/5</li>
 </ul>
+<%= form_tag user_group_searches_path(@current_user) do %>
+	<%= hidden_field_tag :'group_search[user_id]', @current_user.id %>
+	<%= hidden_field_tag :'group_search[restaurant_id]', @restaurant.id %>
+	<%= submit_tag "Create Search" %>
+<% end %>
 <%= button_to "Back", restaurants_path, method: :get %>

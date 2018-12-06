@@ -1,5 +1,5 @@
 class ReservationsController < ApplicationController
-  before_action :find_reservation, only: [:show, :edit, :create, :destroy]
+  before_action :find_reservation, only: [:show, :edit, :update, :destroy]
 
   def index
     @reservations = Reservation.all
@@ -16,12 +16,16 @@ class ReservationsController < ApplicationController
   end
 
   def create
-    @reservation = Reservation.new
+    @reservation = Reservation.new(reservation_params)
+
     if @reservation.save
-      redirect_to reservation_path(@reservation)
+      @reservation.group.users.each do |user|
+        user.group_searches.find { |e| e.restaurant == @reservation.restaurant }.destroy
+      end
+      redirect_to [@current_user, @reservation.group, @reservation]
     else
       flash[:errors] = @reservation.errors.full_messages
-      redirect_to new_reservation_path
+      redirect_to user_group_path(params[:user_id], params[:group_id])
     end
   end
 
@@ -53,6 +57,9 @@ class ReservationsController < ApplicationController
   end
 
   def reservation_params
+    # byebug
+    # time_vals = params[:date].values
+    params[:reservation][:time] = Time.new(*params[:date].values)
     params.require(:reservation).permit(:time, :restaurant_id, :group_id)
   end
 end

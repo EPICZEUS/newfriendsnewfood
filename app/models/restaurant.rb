@@ -1,5 +1,7 @@
 class Restaurant < ApplicationRecord
   has_many :reservations
+  has_many :group_searches
+  has_many :users, through: :group_searches
   has_many :groups, through: :reservations
 
   def self.search(params)

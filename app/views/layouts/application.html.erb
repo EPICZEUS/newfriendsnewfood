@@ -10,6 +10,13 @@
   </head>
 
   <body>
+    <header>
+      <% if @current_user %>
+        <%= link_to "Restaurants", restaurants_path %>
+        <%= link_to image_tag(@current_user.img_url, alt: "My Profile", title: "My Profile", size: 32), user_path(@current_user) %>
+        </a>
+      <% end %>
+    </header>
     <%= yield %>
   </body>
 </html>
