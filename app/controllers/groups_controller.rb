@@ -1,12 +1,14 @@
 class GroupsController < ApplicationController
-  before_action :find_group, only: [:show, :edit, :update, :destroy]
-  before_action :find_user, only: [:index, :show]
+  before_action :find_group, only: [:show, :edit, :update, :destroy, :leave]
 
   def index
-    @groups = Group.all.select { |e| e.users.include?(@user) }
+    @groups = Group.all.select { |e| e.users.include?(current_user) }
   end
 
   def show
+    unless @group.users.include?(current_user)
+      redirect_to user_groups_path(current_user)
+    end
   end
 
   def create
@@ -14,10 +16,10 @@ class GroupsController < ApplicationController
     @group = Group.create(group_params)
 
     if @group.valid?
-      redirect_to user_group_path(@current_user, @group)
+      redirect_to [current_user, @group]
     else
       flash[:errors] = @group.errors.full_messages
-      redirect_to user_groups_path(@current_user)
+      redirect_to user_groups_path(current_user)
     end
   end
 
@@ -26,7 +28,12 @@ class GroupsController < ApplicationController
 
   def update
     if @group.update(group_params)
-      redirect_to @group
+      if params[:commit] == "Leave"
+        @group.destroy unless group_params[:user_ids]
+        redirect_to current_user
+      else
+        redirect_to [current_user, @group]
+      end
     else
       flash[:errors] = @group.errors.full_messages
       redirect_to edit_group_path
@@ -35,14 +42,10 @@ class GroupsController < ApplicationController
 
   def destroy
     @group.destroy
-    redirect_to user_groups_path(@current_user)
+    redirect_to user_groups_path(current_user)
   end
 
   private
-
-  def find_user
-    @user = User.find(params[:user_id])
-  end
 
   def find_group
     @group = Group.find(params[:id])

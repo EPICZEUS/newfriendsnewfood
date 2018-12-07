@@ -1,18 +1,32 @@
-<%= form_for @user do |f| %>
+<%= form_for @user, html: {class: "ui form"} do |f| %>
   <%= render 'shared/errors' %>
-  <%= f.label :username, "Username" %>:
-  <%= f.text_field :username %><br>
-  <%= f.label :password, "Password" %>:
-  <%= f.password_field :password %><br>
-  <%= f.label :password_confirmation, "Confirm Password" %>:
-  <%= f.password_field :password_confirmation %><br>
-  <%= f.label :name, "Name" %>:
-  <%= f.text_field :name %><br>
-  <%= f.label :age, "Age" %>:
-  <%= f.number_field :age %><br>
-  <%= f.label :img_url, "Image URL" %>:
-  <%= f.text_field :img_url %><br>
-  <%= f.label :bio, "Bio" %>:
-  <%= f.text_area :bio %><br>
-  <%= f.submit "Submit" %>
+  <div class="field">
+    <%= f.label :username, "Username" %>
+    <%= f.text_field :username, style: "width: 30%;" %>
+  </div>
+  <div class="field">
+    <%= f.label :password, "Password" %>
+    <%= f.password_field :password, style: "width: 30%;" %>
+  </div>
+  <div class="field">
+    <%= f.label :password_confirmation, "Confirm Password" %>
+    <%= f.password_field :password_confirmation, style: "width: 30%;" %>
+  </div>
+  <div class="field">
+    <%= f.label :name, "Name" %>
+    <%= f.text_field :name, style: "width: 30%;" %>
+  </div>
+  <div class="field">
+    <%= f.label :age, "Age" %>
+    <%= f.number_field :age, style: "width: 30%;" %>
+  </div>
+  <div class="field">
+    <%= f.label :img_url, "Image URL" %>
+    <%= f.text_field :img_url, style: "width: 30%;" %>
+  </div>
+  <div class="field">
+    <%= f.label :bio, "Bio" %>
+    <%= f.text_area :bio, style: "width: 30%;" %>
+  </div>
+  <%= f.submit logged_in? ? "Update" : "Create" , class: "ui positive button" %>
 <% end %>

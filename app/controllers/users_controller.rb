@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-	skip_before_action :current_user, only: [:login, :new, :logging, :create]
+	skip_before_action :authorized, only: [:login, :new, :connect, :create]
 	before_action :find_user, only: [:show, :edit, :update, :destroy]
 	before_action :anti_login, only: [:login, :new]
 
@@ -41,18 +41,19 @@ class UsersController < ApplicationController
 	end
 
 	def login
+		# byebug
+		if params[:login]
+			data = params[:login]
 
-	end
+			@user = User.find_by(username: data[:username])
 
-	def logging
-		@user = User.find_by(username: params[:username])
-
-		if @user && @user.authenticate(params[:password])
-			session[:user_id] = @user.id
-			redirect_to @user
-		else
-			flash[:errors] = ["Username or Password is incorrect"]
-			redirect_to root_path
+			if @user && @user.authenticate(data[:password])
+				session[:user_id] = @user.id
+				redirect_to @user
+			else
+				flash[:errors] = ["Username or Password is incorrect"]
+				redirect_to root_path
+			end
 		end
 	end
 
@@ -65,7 +66,7 @@ class UsersController < ApplicationController
 	end
 
 	def edit
-		redirect_to @current_user unless @current_user == @user
+		redirect_to current_user unless current_user == @user
 	end
 
 	private
@@ -77,7 +78,7 @@ class UsersController < ApplicationController
 
 	def anti_login
 		# byebug
-		if session[:user_id]
+		if logged_in?
 			redirect_to user_path(session[:user_id])
 		end
 	end

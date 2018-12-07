@@ -7,15 +7,26 @@
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
   </head>
 
   <body>
-    <header>
-      <% if @current_user %>
-        <%= link_to "Restaurants", restaurants_path %>
-        <%= link_to image_tag(@current_user.img_url, alt: "My Profile", title: "My Profile", size: 32), user_path(@current_user) %>
-        </a>
+    <header class="ui header main-header">
+      <h2 id="header-h2" class="ui left floated header">
+        New Friends, New Food
+      </h2>
+      <% if current_user %>
+        <div id="user-selection" class="ui right floated header">
+          <div class="ui compact teal buttons">
+            <%= button_to "Restaurants", restaurants_path, method: :get, class: "ui button" %>
+            <%= button_to "Groups", user_groups_path(current_user), method: :get, class: "ui button" %>
+            <%= button_to "Searches", user_group_searches_path(current_user), method: :get, class: "ui button" %>
+          </div>
+          <%= link_to image_tag(current_user.img_url, alt: "My Profile", title: "My Profile", size: 32, class: "ui avatar image"), user_path(current_user) %>
+        </div>
       <% end %>
+      <div class="clear float"><%= "\u200b" %></div>
     </header>
     <%= yield %>
   </body>

@@ -16,6 +16,7 @@ class User < ApplicationRecord
   private
 
   def defaults
+    self.name = self.name.split.map(&:capitalize).join(" ")
   	!self.img_url.empty? || self.img_url = "http://s3.amazonaws.com/37assets/svn/765-default-avatar.png"
   end
 end

@@ -1,14 +1,18 @@
-<h1>Restaurant Index </h1>
+<h2 class="ui header">Restaurant Finder</h2>
 
 <%= form_tag restaurants_path, method: :get do %>
-	<%= text_field_tag :q %>
-	<%= select_tag :cuisine, options_from_collection_for_select(Cuisine.all, :cuisine_id, :name), prompt: "Select Cuisine" %>
-	<%= submit_tag "Search" %>
+	<div class="ui input">
+		<%= text_field_tag :q, nil, placeholder: "Search..." %>
+	</div>
+	<%= select_tag :cuisine, options_from_collection_for_select(Cuisine.all, :cuisine_id, :name), prompt: "Select Cuisine", class: "ui selection dropdown" %>
+	<%= submit_tag "Search", disable_with: 'Searching...', class: "ui primary button" %>
 <% end %>
 <% if params[:q] %>
-	<p>Showing <%= @restaurants.length %> results</p>
+	<div class="ui message">
+		<p>Showing <%= @restaurants.length %> results</p>
+	</div>
 <% end %>
-<ul>
+<ul class="ui list">
 <% @restaurants.each do |rest| %>
   <li><%= link_to rest.name, rest %></li>
 <% end %>

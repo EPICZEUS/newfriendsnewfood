@@ -13,3 +13,45 @@
  *= require_tree .
  *= require_self
  */
+header.main-header {
+	background-color: lightblue;
+	background-size: cover;
+	height: 70.28px;
+	/*position: fixed;*/
+	top: 0px;
+}
+
+header.ui.header {
+	width: 100%;
+	padding-top: 10px;
+	display: inline-block;
+}
+
+#header-h2 {
+	padding-top: 10px;
+}
+
+#user-selection {
+	padding-top: 3px;
+}
+
+#custom-button.button {
+	width: 125px;
+}
+
+#custom-button2.button {
+	width: 125px;
+}
+
+.button {
+	width: 105px;
+}
+
+.bio {
+	width: 256px;
+}
+
+div.message-container {
+	overflow-y: auto;
+	border-style: groove;
+}

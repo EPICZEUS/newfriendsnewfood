@@ -18,7 +18,7 @@ class Restaurant < ApplicationRecord
   	end
 
   	req[:params][:q] = params[:q]
-		req[:params][:cuisines] = params[:cuisine] if params[:cuisine]
+		req[:params][:cuisines] = params[:cuisine]
 
   	res = RestClient.get('https://developers.zomato.com/api/v2.1/search', req)
 

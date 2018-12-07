@@ -1,5 +1,7 @@
+<h1>Active Searches</h1>
+
 <ul>
 	<% @searches.each do |search| %>
-		<li><%= search.restaurant.name %></li>
+		<li><%= link_to search.restaurant.name, [current_user, search] %></li>
 	<% end %>
 </ul>

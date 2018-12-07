@@ -3,14 +3,14 @@ Rails.application.routes.draw do
 
   resources :restaurants, only: [:index, :show]
   resources :users do
-    resources :group_searches, only: [:show, :create]
+    resources :group_searches, only: [:index, :show, :create]
     resources :groups, except: :new do
-      resources :reservations, only: [:show, :create]
+      resources :reservations, only: [:show, :create, :destroy]
       resources :messages, only: [:create]
     end
   end
 
-  get :logging, to: 'users#logging'
+  get :login, to: 'users#login'
   get :logout, to: 'users#logout'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

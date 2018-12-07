@@ -1,5 +1,6 @@
 <h1><%= @group.name %></h1>
 
+<h3>Users</h3>
 <ul>
 	<% @group.users.each do |user| %>
 		<li><%= link_to user.name, user %></li>
@@ -7,34 +8,63 @@
 </ul>
 
 <% unless @group.potential_restaurants.empty? %>
-	<%= form_for [@current_user, @group, Reservation.new] do |f| %>
+	<%= form_for [current_user, @group, Reservation.new] do |f| %>
 		<%= render 'shared/errors' %>
-		<%= select_datetime Time.now, prompt: true, date_separator: '/', time_separator: ':', datetime_separator: ',', ampm: true %>
+		<% now = Time.now %>
+		<%= select_datetime Time.new(now.year, now.month, now.day + 7, 19, 30), prompt: true, date_separator: '/', time_separator: ':', datetime_separator: ',', ampm: true %>
 		<%= hidden_field_tag :'reservation[group_id]', @group.id %>
-	  <%= f.collection_select :restaurant_id, @group.potential_restaurants, :id, :name %>
-	  <%= f.submit "Create Reservation" %>
+	  <%= f.collection_select :restaurant_id, @group.potential_restaurants, :id, :name %><br>
+	  <%= f.submit "Create Reservation", class: "ui primary button", style: "width: 175px" %>
 	<% end %>
 <% end %>
 
-<% @group.reservations.each do |reservation| %>
-	Reservation at <%= link_to reservation.restaurant.name, reservation.restaurant %> for 
-	<%= reservation.time.asctime %><br>
+<% unless @group.reservations.empty? %>
+	<h3>Reservations</h3>
+	<ul>
+		<% @group.reservations.each do |reservation| %>
+			<li> Reservation for <%= link_to reservation.restaurant.name, reservation.restaurant %> on <%= reservation.time.strftime("%-m/%-d/%Y at %-I:%M %p") %> 
+			<%= button_to "Cancel", user_group_reservation_path(current_user, @group, reservation), class: "ui negative button", method: :delete %></li>
+		<% end %>
+	</ul>
 <% end %>
 
-<div class="messages">
-	<h3>Messages</h3>
-	<% @group.messages.each do |message| %>
-		<div class="message">
-			<label><%= image_tag message.user.img_url, size: 32 %><strong><%= message.user.name %></strong> <%= message.created_at.asctime %></label><p><%= message.content %></p>
-		</div>
-	<% end %>
-</div>
+<%= form_for [current_user, @group], html: {class: "ui form"} do |f| %>
+  <%= hidden_field_tag :'group[name]', @group.name %>
+  <% @group.users.each do |user| %>
+  	<% unless current_user == user %>
+  		<%= hidden_field_tag :'group[user_ids][]', user.id %>
+  	<% end %>
+  <% end %>
+  <%= f.submit "Leave", class: "ui button" %>
+<% end %>
 
-<div>
-	<%= form_for [@user, @group, Message.new] do |f| %>
-		<%= hidden_field_tag :'message[user_id]', @user.id %>
-		<%= hidden_field_tag :'message[group_id]', @group.id %>
-	  <%= f.text_area :content %>
-	  <%= f.submit "Send", :disable_with => 'Sending...' %>
-	<% end %>
+<div class="ui", style="padding-left: 5px;">
+	<h3 class="ui header">Messages</h3>
+	<div class="ui comments message-container" id="message-container", style="height: 500px; width: 500px;">
+		<% @group.messages.each do |message| %>
+			<div class="left aligned comment">
+				<%= link_to image_tag(current_user.img_url, size: 32), message.user, class: "avatar" %>
+				<div class="content">
+					<%= link_to message.user.username, message.user, class: "author" %>
+					<div class="metadata">
+						<div class="date">
+							<%= message.created_at.getlocal.strftime("%-m/%-d/%Y at %-I:%M:%S %p %Z") %>
+						</div>
+					</div>
+					<div class="text">
+						<%= message.content %>
+					</div>
+				</div>
+			</div>
+		<% end %>
+	</div>
+
+	<div class="ui">
+		<%= form_for [current_user, @group, Message.new], html: {class: "ui form"} do |f| %>
+			<%= hidden_field_tag :'message[user_id]', current_user.id %>
+			<%= hidden_field_tag :'message[group_id]', @group.id %>
+		  <%= f.text_area :content, class: "ui input solid", style: 'width: 500px; height: 100px' %><br>
+		  <%= f.submit "Send", class: "ui primary button custom-button", style: 'width: 500px;' %>
+		<% end %>
+	</div>
 </div>

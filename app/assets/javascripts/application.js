@@ -14,3 +14,7 @@
 //= require activestorage
 //= require turbolinks
 //= require_tree .
+window.onload=function () {
+     var objDiv = document.getElementById("message-container");
+     if (objDiv) objDiv.scrollTop = objDiv.scrollHeight;
+}

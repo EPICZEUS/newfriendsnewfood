@@ -1,11 +1,27 @@
-<h1><%= @user.name %></h1>
+<h2 class="ui header"><%= @user.name %></h2>
 <% if @user.img_url %>
-	<%= image_tag @user.img_url, size: 256 %><br>
+	<%= image_tag @user.img_url, size: 256, class: "ui image" %><br>
 <% end %>
-Username: <%= @user.username %><br>
-Age: <%= @user.age %><br>
-Bio: <p><%= @user.bio %></p>
-<% if @current_user == @user %>
-	<%= button_to "Edit", edit_user_path(@user), method: :get %>
-	<%= button_to "Logout", logout_path, method: :get %>
+<div class="ui label">
+	Username
+	<div class="detail">
+		<%= @user.username %>
+	</div>
+</div>
+<div class="ui label">
+	Age
+	<div class="detail">
+		<%= @user.age || "N/A" %><br>
+	</div>
+</div>
+<br>
+<div class="ui label bio">
+	Bio
+	<div class="detail">
+		<p class="ui message"><%= @user.bio %></p>
+	</div>
+</div>
+<% if current_user == @user %>
+	<%= button_to "Edit", edit_user_path(@user), method: :get, class: "ui primary button" %>
+	<%= button_to "Logout", logout_path, method: :get, class: "ui button" %>
 <% end %>

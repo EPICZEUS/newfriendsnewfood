@@ -1,9 +1,13 @@
-<%= form_tag '/logging', method: :get do |f| %>
+<%= form_tag login_path, method: :get, class: "ui form" do |f| %>
 	<%= render 'shared/errors' %>
-  <%= label_tag :username, "Username" %>:
-  <%= text_field_tag :username %><br>
-  <%= label_tag :password, "Password" %>:
-  <%= password_field_tag :password %><br>
-  <%= submit_tag "Login" %>
+	<div class="field">
+	  <%= label_tag :username, "Username" %>
+	  <%= text_field_tag :'login[username]', nil, style: "width: 30%;" %>
+	</div>
+	<div class="field">
+	  <%= label_tag :password, "Password" %>
+	  <%= password_field_tag :'login[password]', nil, style: "width: 30%;" %>
+	</div>
+  <%= submit_tag "Login", class: "ui primary button" %>
 <% end %>
-<%= button_to "Register", new_user_path, method: :get %>
+<%= button_to "Register", new_user_path, method: :get, class: "ui button" %>	

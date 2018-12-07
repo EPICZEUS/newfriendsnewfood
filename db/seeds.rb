@@ -7,6 +7,8 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 require_relative '../config/environment'
 
+Group.destroy_all
+User.destroy_all
 Cuisine.destroy_all
 Restaurant.destroy_all
 
@@ -20,3 +22,6 @@ data["cuisines"].each do |e|
 
 	Cuisine.create(name: cuisine["cuisine_name"], cuisine_id: cuisine["cuisine_id"])
 end
+
+User.create(name: "Sam", username: "EPICZEUS", password: "admin5340", password_confirmation: "admin5340", age: 21, bio: "Love to eat all the foods!", img_url: "")
+User.create(name: "Gabby", username: "gabby12345", password: "admin5340", password_confirmation: "admin5340", age: 28, bio: "Here to have fun and eat tasty things.", img_url: "")

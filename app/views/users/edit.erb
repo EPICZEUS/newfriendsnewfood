@@ -1,4 +1,4 @@
 <h1>Edit User</h1>
 <%= render 'form' %>
-<%= button_to "Delete", @user, method: :delete, data: { confirm: "Are you sure?" } %>
-<%= button_to "Cancel", @user, method: :get %>
+<%= button_to "Delete", @user, method: :delete, data: { confirm: "Are you sure?" }, class: "ui negative button" %>
+<%= button_to "Cancel", @user, method: :get, class: "ui button" %>

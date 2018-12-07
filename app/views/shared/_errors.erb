@@ -1,7 +1,9 @@
 <% if flash[:errors] %>
-	<ul>
-		<% flash[:errors].each do |msg| %>
-			<li><%= msg %></li>
-		<% end %>
-	</ul>
+	<div class="ui negative message">
+		<ul class="ui list">
+			<% flash[:errors].each do |msg| %>
+				<li><%= msg %></li>
+			<% end %>
+		</ul>
+	</div>
 <% end %>

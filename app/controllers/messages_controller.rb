@@ -1,8 +1,7 @@
 class MessagesController < ApplicationController
 	def create
-		# byebug
 		@message = Message.create(message_params)
-		redirect_to user_group_path(params[:message][:user_id], params[:message][:group_id])
+		redirect_to [@message.user, @message.group]
 	end
 
 	private

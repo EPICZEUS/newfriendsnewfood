@@ -1,16 +1,27 @@
 <h1>Searching for <%= @group_search.restaurant.name %> Groups</h1>
-<% unless @group_search.restaurant.users.length == 1  %>
-	<%= form_for [@current_user, Group.new] do |f| %>
-	  <ul>
+<% unless @group_search.restaurant.users.length  < 3  %>
+	<%= form_for [current_user, Group.new] do |f| %>
+		<%= render 'shared/errors' %>
+		<ul>
 	  	<% @group_search.restaurant.users.each do |user| %>
-	  		<% unless @current_user == user %>
-	  			<li><%= check_box_tag :'group[user_ids][]', user.id %><%= user.name %></li>
+	  		<% unless current_user == user %>
+	  			<li>
+	  				<div class="ui checkbox">
+							<%= check_box_tag :'group[user_ids][]', user.id %><label><%= user.name %></label>
+	  				</div>
+	  			</li>
 	  		<% end %>
 	  	<% end %>
-	  </ul>
-	  <%= hidden_field_tag :'group[user_ids][]', @current_user.id %>
-	  <%= f.label :Name, "Name the group:" %>
-	  <%= f.text_field :name %>
-	  <%= f.submit "Create Group", :disable_with => 'Creating Group...' %>
+		</ul>
+	  <%= hidden_field_tag :'group[user_ids][]', current_user.id %>
+	  <div class="ui label">
+	  	<%= f.label :Name, "Name the group:" %>
+	  	<div class="detail">
+			  <div class="ui input">
+			  	<%= f.text_field :name %>
+			  </div>
+	  		<%= f.submit "Create Group", class: "ui positive button", style: 'width: 125px;' %>
+	  	</div>
+	  </div>
 	<% end %>
 <% end %>
